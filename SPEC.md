@@ -82,7 +82,7 @@ Some of the values in the event payloads are IDs internal to the game. Luckily f
 ### Event Payloads
 This event should be the very first event in the byte stream. It enumerates all possible events and their respective payload sizes that may be encountered in the byte stream. An event showing up in here does not imply it will be in the stream, only that if it does occur, it will have the specified size.
 
-| Offset | Name | Type | Description |
+| Offset | Name | [Type](#data-types) | Description |
 | --- | --- | --- | --- |
 | 0x0 | [Command Byte](#events) | uint8 | (0x35) The command byte for the event payloads event
 | 0x1 | Payload Size | uint8 | The size in bytes of the payload for this event, including this byte (i.e. `3n+1`, where `n` is the number of commands to follow)
@@ -92,7 +92,7 @@ This event should be the very first event in the byte stream. It enumerates all 
 ### Game Start
 This is data that will be transferred as the game is starting. It includes all the information required to initialize the game such as the game mode, settings, characters selected, stage selected. The entire block that contains all of this data is written out in the [`Game Info Block`](#game-info-block) but not all of it is understood/documented. This event will occur exactly once in the stream.
 
-| Offset | Name | Type | Description | Added |
+| Offset | Name | [Type](#data-types) | Description | Added |
 | --- | --- | --- | --- | --- |
 | 0x0 | [Command Byte](#events) | uint8 | (0x36) The command byte for the game start event | 0.1.0
 | 0x1 | Version | uint8[4] | 4 bytes describing the current extraction code version. `major.minor.build.unused` | 0.1.0
@@ -107,7 +107,7 @@ This is data that will be transferred as the game is starting. It includes all t
 #### Game Info Block
 Offsets are **indexed from the [Game Start](#game-start) command byte** described above, they are not indexed from the start of the Game Info Block.
 
-| Offset | Name | Type | Description |
+| Offset | Name | [Type](#data-types) | Description |
 | --- | --- | --- | --- |
 | 0x5 | Game Bitfield 1 | uint8 | See the table [Game Bitfield 1](#game-bitfield-1)
 | 0x6 | Game Bitfield 2 | uint8 | See the table [Game Bitfield 2](#game-bitfield-2)
@@ -260,7 +260,7 @@ Found in [Game Info Block](#game-info-block).
 ### Frame Start
 Frame start is an event added to transfer RNG seed at the very beginning of a frame's processing to prevent desyncs such as the knockback spiral animation desync.
 
-| Offset | Name | Type | Description | Added |
+| Offset | Name | [Type](#data-types) | Description | Added |
 | --- | --- | --- | --- | --- |
 | 0x0 | [Command Byte](#events) | uint8 | (0x3A) The command byte for the frame start event | 2.2.0
 | 0x1 | Frame Number | int32 | The number of the frame. Starts at -123. Frame 0 is when the timer starts counting down | 2.2.0
@@ -269,7 +269,7 @@ Frame start is an event added to transfer RNG seed at the very beginning of a fr
 ### Pre-Frame Update
 This event will occur exactly once per frame per character (Ice Climbers are 2 characters). Contains information required to **reconstruct a replay**. Information is collected right before controller inputs are used to figure out the character's next action. The post-frame update contains the appropriate character ID to make sense of the action state present here.
 
-| Offset | Name | Type | Description | Added |
+| Offset | Name | [Type](#data-types) | Description | Added |
 | --- | --- | --- | --- | --- |
 | 0x0 | [Command Byte](#events) | uint8 | (0x37) The command byte for the pre-frame update event | 0.1.0
 | 0x1 | Frame Number | int32 | The number of the frame. Starts at -123. Frame 0 is when the timer starts counting down | 0.1.0
@@ -340,7 +340,7 @@ Use bits set to determine physical buttons pressed. Useful for APM. Found in [Pr
 ### Post-Frame Update
 This event will occur exactly once per frame per character (Ice Climbers are 2 characters). Contains information for **making decisions about game states**, such as computing stats. Information is collected at the end of the Collision detection which is the last consideration of the game engine.
 
-| Offset | Name | Type | Description | Added |
+| Offset | Name | [Type](#data-types) | Description | Added |
 | --- | --- | --- | --- | --- |
 | 0x0 | [Command Byte](#events) | uint8 | (0x38) The command byte for the post-frame update event | 0.1.0
 | 0x1 | Frame Number | int32 | The number of the frame. Starts at -123. Frame 0 is when the timer starts counting down | 0.1.0
@@ -443,7 +443,7 @@ Found in [Post-Frame Update](#post-frame-update).
 ### Item Update
 A maximum of 15 items per frame can have their data extracted. This information can be used for stats, training AIs, or visualization engines to handle items. Note that these aren't just for "items" it also includes all projectiles such as Fox lasers, Sheik needles, etc.
 
-| Offset | Name | Type | Description | Added |
+| Offset | Name | [Type](#data-types) | Description | Added |
 | --- | --- | --- | --- | --- |
 | 0x0 | [Command Byte](#events) | uint8 | (0x3B) The command byte for the item update event | 3.0.0
 | 0x1 | Frame Number | int32 | The number of the frame. Starts at -123. Frame 0 is when the timer starts counting down | 3.0.0
@@ -461,7 +461,7 @@ A maximum of 15 items per frame can have their data extracted. This information 
 ### Frame Bookend
 The frame bookend is a simple event that can be used to determine that the entire frame's worth of data has been transferred/processed. It is always sent at the very end of the frame's transfer.
 
-| Offset | Name | Type | Description | Added |
+| Offset | Name | [Type](#data-types) | Description | Added |
 | --- | --- | --- | --- | --- |
 | 0x0 | [Command Byte](#events) | uint8 | (0x3C) The command byte for the frame bookend event | 3.0.0
 | 0x1 | Frame Number | int32 | The number of the frame. Starts at -123. Frame 0 is when the timer starts counting down | 3.0.0
@@ -469,7 +469,7 @@ The frame bookend is a simple event that can be used to determine that the entir
 ### Game End
 This event indicates the end of the game has occurred. If present, this will occur exactly once in the stream. It may not be present.
 
-| Offset | Name | Type | Description | Added |
+| Offset | Name | [Type](#data-types) | Description | Added |
 | --- | --- | --- | --- | --- |
 | 0x0 | [Command Byte](#events) | uint8 | (0x39) The command byte for the game end event | 0.1.0
 | 0x1 | Game End Method | uint8 | See table [Game End Method](#game-end-method) | 0.1.0
@@ -488,7 +488,7 @@ The `metadata` element contains any miscellaneous data relevant to the game but 
 
 The `metadata` element can be read individually to save processing time with a bit of effort. For a complete file, [the `raw` element](#the-raw-element) will indicate its size, meaning the entire data block can be skipped in order to extract just the `metadata` element.
 
-| Key | Type | Description |
+| Key | [Type](#data-types) | Description |
 | --- | --- | --- |
 | startAt | string | Timestamp of when the game started, ISO 8601 format (e.g. `2018-06-22T07:52:59Z`)
 | lastFrame | int32 | The frame number of the last frame of the game. Used to show game duration without parsing entire replay
