@@ -15,12 +15,12 @@ UBJSON was chosen for a few reasons:
 2. It allows binary data to be stored without increasing file size much by taking advantage of the optimized container formats
 3. Arbitrary metadata of various types can be easily added and quickly parsed
 
-The .slp file has two core elements: raw and metadata. These elements will always show up in the same order in the file with the raw element first and the metadata element second.
+The .slp file has two core elements: `raw` and `metadata`. These elements will always show up in the same order in the file with the `raw` element first and the `metadata` element second.
 
 # The `raw` Element
-The value for this element is an array of bytes that describe discrete events that were sent by the game to be written. These specific events will be broken down later. The data for the raw element is the largest part of the file and is truly what defines what happened during the game.
+The value for this element is an array of bytes that describe discrete events that were sent by the game to be written. These specific events will be broken down later. The data for the `raw` element is the largest part of the file and is truly what defines what happened during the game.
 
-The element is defined in optimized format, this is done such that the metadata element can be found and parsed much more easily irrespective of what size it is. The optimized format also enables the type definition to be dropped for each array value which greatly conserves space. You can find more information about optimized container formats in the UBJSON spec.
+The element is defined in optimized format, this is done such that [the `metadata` element](#the-metadata-element) can be found and parsed much more easily irrespective of what size it is. The optimized format also enables the type definition to be dropped for each array value which greatly conserves space. You can find more information about optimized container formats in the [UBJSON spec](#ubjson).
 
 The lead up to the data will look like the following: `[U][3][r][a][w][[][$][U][#][l][X][X][X][X]`
 
@@ -29,7 +29,7 @@ Each value in brackets is one byte. The first 5 bytes describe the length and na
 It is important to note that while the game is in progress and the data is being actively written, the length will be set to 0. This was done to make overwriting the size easier once all the data has been received.
 
 ## Events
-As mentioned above, the data contained within the raw element describes specific events that describe what is going on in a Melee game. These events were added in via modding the game and this section will describe what those events are and how to parse the enormous byte array. I will refer to all the bytes in this byte array as the *byte stream*.
+As mentioned above, the data contained within [the `raw` element](#the-raw-element) describes specific events that describe what is going on in a Melee game. These events were added in via modding the game and this section will describe what those events are and how to parse the enormous byte array. I will refer to all the bytes in this byte array as the *byte stream*.
 
 Every event is defined by a one byte code followed by a payload. The following table lists all of the existing event types.
 
@@ -62,7 +62,7 @@ Ranges are specified in this document with inclusive notation, i.e. [0, 255] mea
 | object | A UBJSON object value
 
 ### Endianness
-As per the UBJSON spec, all numeric types are written in **big-endian** format. And by a happy coincidence, all numeric values in the game data byte stream are also written in big-endian format.
+As per the [UBJSON spec](#ubjson), all numeric types are written in **big-endian** format. And by a happy coincidence, all numeric values in the game data byte stream are also written in big-endian format.
 
 This means that whether you are looking at the length of the byte stream as described in [The `raw` Element](#the-raw-element) or if you are looking at what stage was selected for the game, the byte order is consistent.
 
@@ -484,9 +484,9 @@ The behavior of this field depends on the version. Found in [Game End](#game-end
 | 2.0.0 | 1 = TIME!, 2 = GAME!, 7 = No Contest
 
 # The `metadata` Element
-The metadata element contains any miscellaneous data relevant to the game but not directly provided by Melee. Unlike all the other data defined in this doc, which was basically stored as a binary stream, the data in the metadata element is pure UBJSON.
+The `metadata` element contains any miscellaneous data relevant to the game but not directly provided by Melee. Unlike all the other data defined in this doc, which was basically stored as a binary stream, the data in the `metadata` element is pure [UBJSON](#ubjson).
 
-The metadata element can be read individually to save processing time with a bit of effort. For a complete file, the raw element will indicate its size, meaning the entire data block can be skipped in order to extract just the metadata element.
+The `metadata` element can be read individually to save processing time with a bit of effort. For a complete file, [the `raw` element](#the-raw-element) will indicate its size, meaning the entire data block can be skipped in order to extract just the `metadata` element.
 
 | Key | Type | Description |
 | --- | --- | --- |
