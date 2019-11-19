@@ -84,7 +84,7 @@ This event should be the very first event in the byte stream. It enumerates all 
 
 | Offset | Name | Type | Description |
 | --- | --- | --- | --- |
-| 0x0 | Command Byte | uint8 | (0x35) The command byte for the event payloads event
+| 0x0 | [Command Byte](#events) | uint8 | (0x35) The command byte for the event payloads event
 | 0x1 | Payload Size | uint8 | The size in bytes of the payload for this event, including this byte (i.e. `3n+1`, where `n` is the number of commands to follow)
 | 0x2 + 0x3*i* | Other Command Byte | uint8 | A command byte that may be encountered in the byte stream. *i* is dependent on the payload size, the rest of the payload is all command/size pairs
 | 0x3 + 0x3*i* | Other Command Payload Size | uint16 | The size in bytes of the payload for the command
@@ -94,7 +94,7 @@ This is data that will be transferred as the game is starting. It includes all t
 
 | Offset | Name | Type | Description | Added |
 | --- | --- | --- | --- | --- |
-| 0x0 | Command Byte | uint8 | (0x36) The command byte for the game start event | 0.1.0
+| 0x0 | [Command Byte](#events) | uint8 | (0x36) The command byte for the game start event | 0.1.0
 | 0x1 | Version | uint8[4] | 4 bytes describing the current extraction code version. `major.minor.build.unused` | 0.1.0
 | 0x5 | Game Info Block | uint8[312] | Full game info block that Melee reads from to initialize a game. For a breakdown of the bytes, see the table [Game Info Block](#game-info-block) | 0.1.0
 | 0x13D | Random Seed | uint32 | The random seed before the game start | 0.1.0
@@ -262,7 +262,7 @@ Frame start is an event added to transfer RNG seed at the very beginning of a fr
 
 | Offset | Name | Type | Description | Added |
 | --- | --- | --- | --- | --- |
-| 0x0 | Command Byte | uint8 | (0x3A) The command byte for the frame start event | 2.2.0
+| 0x0 | [Command Byte](#events) | uint8 | (0x3A) The command byte for the frame start event | 2.2.0
 | 0x1 | Frame Number | int32 | The number of the frame. Starts at -123. Frame 0 is when the timer starts counting down | 2.2.0
 | 0x5 | Random Seed | uint32 | The random seed at the start of the frame| 2.2.0
 
@@ -271,7 +271,7 @@ This event will occur exactly once per frame per character (Ice Climbers are 2 c
 
 | Offset | Name | Type | Description | Added |
 | --- | --- | --- | --- | --- |
-| 0x0 | Command Byte | uint8 | (0x37) The command byte for the pre-frame update event | 0.1.0
+| 0x0 | [Command Byte](#events) | uint8 | (0x37) The command byte for the pre-frame update event | 0.1.0
 | 0x1 | Frame Number | int32 | The number of the frame. Starts at -123. Frame 0 is when the timer starts counting down | 0.1.0
 | 0x5 | Player Index | uint8 | Between 0 and 3. Port is index + 1 | 0.1.0
 | 0x6 | Is Follower | bool | Value is 1 for Nana and 0 otherwise | 0.1.0
@@ -342,7 +342,7 @@ This event will occur exactly once per frame per character (Ice Climbers are 2 c
 
 | Offset | Name | Type | Description | Added |
 | --- | --- | --- | --- | --- |
-| 0x0 | Command Byte | uint8 | (0x38) The command byte for the post-frame update event | 0.1.0
+| 0x0 | [Command Byte](#events) | uint8 | (0x38) The command byte for the post-frame update event | 0.1.0
 | 0x1 | Frame Number | int32 | The number of the frame. Starts at -123. Frame 0 is when the timer starts counting down | 0.1.0
 | 0x5 | Player Index | uint8 | Between 0 and 3. Port is index + 1 | 0.1.0
 | 0x6 | Is Follower | bool | Value is 1 for Nana and 0 otherwise | 0.1.0
@@ -445,7 +445,7 @@ A maximum of 15 items per frame can have their data extracted. This information 
 
 | Offset | Name | Type | Description | Added |
 | --- | --- | --- | --- | --- |
-| 0x0 | Command Byte | uint8 | (0x3B) The command byte for the item update event | 3.0.0
+| 0x0 | [Command Byte](#events) | uint8 | (0x3B) The command byte for the item update event | 3.0.0
 | 0x1 | Frame Number | int32 | The number of the frame. Starts at -123. Frame 0 is when the timer starts counting down | 3.0.0
 | 0x5 | Type ID | uint16 | The [type of item](#melee-ids) this is | 3.0.0
 | 0x7 | State | uint8 | The state the item is in. Mostly undocumented, might differ per type | 3.0.0
@@ -463,7 +463,7 @@ The frame bookend is a simple event that can be used to determine that the entir
 
 | Offset | Name | Type | Description | Added |
 | --- | --- | --- | --- | --- |
-| 0x0 | Command Byte | uint8 | (0x3C) The command byte for the frame bookend event | 3.0.0
+| 0x0 | [Command Byte](#events) | uint8 | (0x3C) The command byte for the frame bookend event | 3.0.0
 | 0x1 | Frame Number | int32 | The number of the frame. Starts at -123. Frame 0 is when the timer starts counting down | 3.0.0
 
 ### Game End
@@ -471,7 +471,7 @@ This event indicates the end of the game has occurred. If present, this will occ
 
 | Offset | Name | Type | Description | Added |
 | --- | --- | --- | --- | --- |
-| 0x0 | Command Byte | uint8 | (0x39) The command byte for the game end event | 0.1.0
+| 0x0 | [Command Byte](#events) | uint8 | (0x39) The command byte for the game end event | 0.1.0
 | 0x1 | Game End Method | uint8 | See table [Game End Method](#game-end-method) | 0.1.0
 | 0x2 | LRAS Initiator | int8 | Index of player that LRAS'd. -1 if not applicable | 2.0.0
 
