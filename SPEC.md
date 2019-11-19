@@ -493,5 +493,5 @@ The metadata element can be read individually to save processing time with a bit
 | startAt | string | Timestamp of when the game started, ISO 8601 format (e.g. `2018-06-22T07:52:59Z`)
 | lastFrame | int32 | The frame number of the last frame of the game. Used to show game duration without parsing entire replay
 | players | object | Metadata for the individual players. Currently just contains character-use statistics (example: `{'characters': {'18': 5209}}` means the player used Marth (internal character ID `18`) for all `5209` frames of the game. Mostly useful for Zelda/Sheik
-| playedOn | string | Platform the game was played on (values include `dolphin`, `console`, and `network`)
+| playedOn | string | Platform the game was played on (values include `dolphin`, `console`, `nintendont`, and `network`)
 | consoleNick | string | The name of the console the replay was created on.
